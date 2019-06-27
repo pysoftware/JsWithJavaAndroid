@@ -51,15 +51,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startBroadcast(String message){
+//        Intent notificationIntent = new Intent("com.magere.domah.startBroadcast");
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, message);
         intent.setType("text/plain");
 
-        Intent chooser = Intent.createChooser(intent, "Choose app: ");
+//        Intent chooser = Intent.createChooser(intent, "Choose app: ");
 
         if (intent.resolveActivity(getPackageManager()) != null){
-            startActivity(chooser);
+//            startActivity(chooser);
+            sendBroadcast(intent);
         }
-//        sendBroadcast(intent);
+
     }
 }
