@@ -15,9 +15,13 @@ import android.widget.Toast;
 
 import com.magere.domah.utils.NotificationReceiver;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 
 public class MainActivity extends AppCompatActivity {
+
+    Map<String, String> map = null;
 
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     @Override
@@ -31,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("CheckResult")
             @JavascriptInterface
             public void showToast(String message){
-                Observable.just(message)
-                        .map(String::hashCode)
-                        .map(i -> Integer.toString(i))
-                        .subscribe(s  -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show());
-                startBroadcast();
+//                Observable.just(message)
+//                        .map(String::hashCode)
+//                        .map(i -> Integer.toString(i))
+//                        .subscribe(s  -> Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show())
+                startBroadcast(message);
             }
         }
 
@@ -46,8 +50,16 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl("https://testmamagit.github.io");
     }
 
-    private void startBroadcast(){
-        Intent intent = new Intent("com.magere.domah.startBroadcast");
+    private void startBroadcast(String message){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        intent.setType("text/plain");
+
+        Intent chooser = Intent.createChooser(intent, "Choose app: ");
+
+        if (intent.resolveActivity(getPackageManager()) != null){
+            startActivity(chooser);
+        }
         sendBroadcast(intent);
     }
 }
