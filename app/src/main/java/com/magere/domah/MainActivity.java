@@ -60,6 +60,6 @@ public class MainActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null){
             startActivity(chooser);
         }
-        sendBroadcast(intent);
+//        sendBroadcast(intent);
     }
 }
